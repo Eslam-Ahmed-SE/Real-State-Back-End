@@ -1,3 +1,5 @@
+<!--
+
 <!DOCTYPE html>
 <html lang="">
 
@@ -12,11 +14,9 @@
 </head>
 
 <body>
-<!--
 	<header></header>
 	<main></main>
 	<footer></footer>
--->
     
 	
     <form action="connection/save_ad.php" method="post">
@@ -58,9 +58,22 @@
         <input type="number" name="whatsapp" placeholder="whatsapp"/>
         <br>
         <input type="submit"/>
-    </form>
-<!--    <script type="text/javascript" src=""></script>-->
+    </form>    
+    
+    <script type="text/javascript" src=""></script>
     
 </body>
 
-</html>
+</html>-->
+
+<?php
+
+require("Controller/AdController.php");
+
+$page = 1;
+if (isset($_GET["page"]))
+    $page=$_GET["page"];
+
+$obje = new AdController();
+$obje->list($page);
+?>
