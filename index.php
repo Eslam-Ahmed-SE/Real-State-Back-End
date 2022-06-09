@@ -70,10 +70,33 @@
 
 require("Controller/AdController.php");
 
-$page = 1;
+$page = null;
 if (isset($_GET["page"]))
     $page=$_GET["page"];
 
 $obje = new AdController();
 $obje->list($page);
+
+
+$ad["UID"]=12;
+$ad["pics"]=array("pic/1.png","pic/2.png");
+$ad["price"]=12;
+$ad["address"]="12 asd";
+$ad["type"]=1;
+$ad["furnished"]=1;
+$ad["sale_type"]=1;
+$ad["rooms_num"]=1;
+$ad["bathrooms_num"]=1;
+$ad["area"]=1;
+$ad["ad_dasc"]="asd asd";
+$ad["contact_email"]="asd@asd.asd";
+$ad["contact_phone"]=123;
+$ad["contact_whatsapp"]=12323;
+                    
+//$obje->add($ad);
+
+
+
+
+
 ?>
