@@ -2,7 +2,33 @@
 //header( "Content-Type:application/json" );
 
 class AdController {
-    public function getPageCount() {}
+    public function getNumberOfPages() {
+        require( "./connection/db-connection.php" );
+        
+        $sql = "SELECT * FROM ad";
+        $result = $conn->query( $sql );
+        $i = 0;
+        $adArray = array();
+
+        if ( $result->num_rows > 0 ) {
+            // output data of each row
+            while( $row = $result->fetch_assoc() ) {
+                $adArray[$i] = $row;
+
+                $adArray[$i]["pics"] = explode( "|", $adArray[$i]["pics"] );
+                $i++;
+            }
+        } else {
+            $result = array('status'=>200,'message'=>'No data');
+            $json_response = json_encode( $result );
+            echo $json_response;
+        }
+        $conn->close();
+        
+        $result = array('Number of pages'=>count($adArray));
+        $json_response = json_encode( $result );
+        echo $json_response;
+    }
 
     public function list( $page = 1 ) {
         require( "./connection/db-connection.php" );

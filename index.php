@@ -75,7 +75,8 @@ if (isset($_GET["page"]))
     $page=$_GET["page"];
 
 $obje = new AdController();
-$obje->list($page);
+//$obje->list($page);
+$obje->getNumberOfPages();
 
 
 $ad["UID"]=12;
