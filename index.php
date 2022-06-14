@@ -15,45 +15,44 @@ $page = null;
 switch ($Q[0]){
     case "view":
     case "list":
-        if (isset($Q[1]) && $Q[1] === "page")
+        if (isset($Q[1]) && $Q[1] === "page" && is_numeric($Q[2])){
             $page=$Q[2];
-        $obje->list($page);
+        }
+
+        if($page>$obje->getNumberOfPages()){
+            http_response_code(406);
+            $result = array('status'=>406,'error'=>'invalid request','message'=>'Max pages is ' . $obje->getNumberOfPages());
+            $json_response = json_encode( $result );
+            echo $json_response;
+        }
+        else{
+            $obje->list($page);
+        }
+        
+        break;
+    case "get":
+        if (isset($Q[1]) && $Q[1] === "numberofpages"){
+            $result = array('Number of pages'=>$obje->getNumberOfPages()) ;
+            
+            $json_response = json_encode( $result );
+            echo $json_response;
+        }
+        elseif (isset($Q[1]) && $Q[1] === "lastid"){
+            $result = array('Last ID'=>$obje->getLastID()) ;
+            
+            $json_response = json_encode( $result );
+            echo $json_response;
+        }
+        elseif (isset($Q[1]) && is_numeric($Q[1])){
+            // get a specific record
+            echo "getting a specific record";
+        }
+            
+        
         break;
     case "add":
-
-        var_dump(http_response_code(400));
-        if (!isset($_POST['UID']) || $_POST['UID']===null || empty($_POST['UID']))
-            $result = array('status'=>400,'error'=>'invalid request','message'=>'Request body error', 'Missing'=>'UID');
-        elseif (!isset($_POST['pics']) || $_POST['pics']===null || empty($_POST['pics'])) 
-            $result = array('status'=>400,'error'=>'invalid request','message'=>'Request body error', 'Missing'=>'pics');
-        elseif (!isset($_POST['price']) || $_POST['price']===null || empty($_POST['price'])) 
-            $result = array('status'=>400,'error'=>'invalid request','message'=>'Request body error', 'Missing'=>'price');
-        elseif (!isset($_POST['address']) || $_POST['address']===null || empty($_POST['address'])) 
-            $result = array('status'=>400,'error'=>'invalid request','message'=>'Request body error', 'Missing'=>'address');
-        elseif (!isset($_POST['type']) || $_POST['type']===null || empty($_POST['type'])) 
-            $result = array('status'=>400,'error'=>'invalid request','message'=>'Request body error', 'Missing'=>'type');
-        elseif (!isset($_POST['furnished']) || $_POST['furnished']===null || empty($_POST['furnished'])) 
-            $result = array('status'=>400,'error'=>'invalid request','message'=>'Request body error', 'Missing'=>'furnished');
-        elseif (!isset($_POST['sale_type']) || $_POST['sale_type']===null || empty($_POST['sale_type'])) 
-            $result = array('status'=>400,'error'=>'invalid request','message'=>'Request body error', 'Missing'=>'sale_type');
-        elseif (!isset($_POST['rooms_num']) || $_POST['rooms_num']===null || empty($_POST['rooms_num'])) 
-            $result = array('status'=>400,'error'=>'invalid request','message'=>'Request body error', 'Missing'=>'rooms_num');
-        elseif (!isset($_POST['bathrooms_num']) || $_POST['bathrooms_num']===null || empty($_POST['bathrooms_num'])) 
-            $result = array('status'=>400,'error'=>'invalid request','message'=>'Request body error', 'Missing'=>'bathrooms_num');
-        elseif (!isset($_POST['area']) || $_POST['area']===null || empty($_POST['area'])) 
-            $result = array('status'=>400,'error'=>'invalid request','message'=>'Request body error', 'Missing'=>'area');
-        elseif (!isset($_POST['ad_dasc']) || $_POST['ad_dasc']===null || empty($_POST['ad_dasc'])) 
-            $result = array('status'=>400,'error'=>'invalid request','message'=>'Request body error', 'Missing'=>'ad_dasc');
-        elseif (!isset($_POST['contact_email']) || $_POST['contact_email']===null || empty($_POST['contact_email'])) 
-            $result = array('status'=>400,'error'=>'invalid request','message'=>'Request body error', 'Missing'=>'contact_email');
-        elseif (!isset($_POST['contact_phone']) || $_POST['contact_phone']===null || empty($_POST['contact_phone'])) 
-            $result = array('status'=>400,'error'=>'invalid request','message'=>'Request body error', 'Missing'=>'contact_phone');
-        elseif (!isset($_POST['contact_whatsapp']) || $_POST['contact_whatsapp']===null || empty($_POST['contact_whatsapp'])) 
-            $result = array('status'=>400,'error'=>'invalid request','message'=>'Request body error', 'Missing'=>'contact_whatsapp');
-        else {
-            var_dump(http_response_code(200));
-            $result = array(array('status'=>200,'message'=>'Done'), array('UID'=>$_POST['UID']));
-        }
+        // echo $_POST['UID'] . " pics " . var_dump($_FILES['pics']);
+        $result = $obje->add($_POST, $_FILES['pics']);
 
         $json_response = json_encode( $result );
         echo $json_response;
