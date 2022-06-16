@@ -60,11 +60,12 @@ class AdController {
         // echo $json_response;
     }
 
-    public function list( $page = 1 ) {
+    public function list( $page=1, $record=null ) {
         global $pageCount;
         require( "./connection/db-connection.php" );
 
-        $sql = "SELECT * FROM ad";
+        $sql = $record===null?"SELECT * FROM ad":"SELECT * FROM ad where id=".$record;
+        // echo $sql;
         $result = $conn->query( $sql );
         $i = 0;
         $adArray = array();

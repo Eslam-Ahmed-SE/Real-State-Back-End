@@ -15,8 +15,9 @@ $page = null;
 switch ($Q[0]){
     case "view":
     case "list":
-        if (isset($Q[1]) && $Q[1] === "page" && is_numeric($Q[2])){
-            $page=$Q[2];
+        if (isset($Q[1]) && $Q[1] === "page" && isset($Q[2])){
+            if(is_numeric($Q[2]))
+                $page=$Q[2];
         }
 
         if($page>$obje->getNumberOfPages()){
@@ -45,7 +46,13 @@ switch ($Q[0]){
         }
         elseif (isset($Q[1]) && is_numeric($Q[1])){
             // get a specific record
-            echo "getting a specific record";
+            $obje->list($page, $Q[1]);
+        }
+        else {
+            http_response_code(400);
+            $result = array('status'=>400,'error'=>'invalid request','message'=>'Requested parameter error');
+            $json_response = json_encode( $result );
+            echo $json_response;
         }
             
         
