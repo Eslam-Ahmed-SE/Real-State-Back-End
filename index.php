@@ -72,6 +72,19 @@ switch ($Q[0]){
         // $ad["contact_phone"]=123;
         // $ad["contact_whatsapp"]=12323;
         break;
+    case "update":
+        $result = $obje->update($_POST, isset($_FILES['pics'])?$_FILES['pics']:null);
+        $json_response = json_encode( $result );        
+        echo $json_response;
+        break;
+    case "delete":
+        if (isset($Q[1]) && is_numeric($Q[1]))
+            $result = $obje->delete($Q[1]);
+        else
+            $result = array('status'=>400,'error'=>'invalid request','message'=>'Send a correct ID number');
+        $json_response = json_encode( $result );
+        echo $json_response;
+        break;
     default:
         $result = array('status'=>400,'error'=>'invalid request','message'=>'Requested parameter error');
         $json_response = json_encode( $result );
