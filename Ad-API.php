@@ -5,11 +5,6 @@ require("Controller/AdController.php");
 $obje = new AdController();
 
 $Q = explode("/", $_SERVER["QUERY_STRING"]);
-
-// echo $Q[0];
-// echo $Q[1];
-// echo $Q[2];
-
 $page = null;
 
 switch ($Q[0]){
@@ -58,26 +53,10 @@ switch ($Q[0]){
         
         break;
     case "add":
-        // echo $_POST['UID'] . " pics " . var_dump($_FILES['pics']);
-        $result = $obje->add($_POST, $_FILES['pics']);
+        $result = $obje->add($_POST, isset($_FILES['pics'])?$_FILES['pics']:null);
 
         $json_response = json_encode( $result );
         echo $json_response;
-
-        // $ad["UID"]=12;
-        // $ad["pics"]=array("pic/1.png","pic/2.png");
-        // $ad["price"]=12;
-        // $ad["address"]="12 asd";
-        // $ad["type"]=1;
-        // $ad["furnished"]=1;
-        // $ad["sale_type"]=1;
-        // $ad["rooms_num"]=1;
-        // $ad["bathrooms_num"]=1;
-        // $ad["area"]=1;
-        // $ad["ad_dasc"]="asd asd";
-        // $ad["contact_email"]="asd@asd.asd";
-        // $ad["contact_phone"]=123;
-        // $ad["contact_whatsapp"]=12323;
         break;
     case "update":
         $result = $obje->update($_POST, isset($_FILES['pics'])?$_FILES['pics']:null);
@@ -98,28 +77,19 @@ switch ($Q[0]){
         echo $json_response;
 }
 
-// $obje->getNumberOfPages();
-
-
-$ad["UID"]=12;
-$ad["pics"]=array("pic/1.png","pic/2.png");
-$ad["price"]=12;
-$ad["address"]="12 asd";
-$ad["type"]=1;
-$ad["furnished"]=1;
-$ad["sale_type"]=1;
-$ad["rooms_num"]=1;
-$ad["bathrooms_num"]=1;
-$ad["area"]=1;
-$ad["ad_dasc"]="asd asd";
-$ad["contact_email"]="asd@asd.asd";
-$ad["contact_phone"]=123;
-$ad["contact_whatsapp"]=12323;
-                    
-//$obje->add($ad);
-
-
-
-
+// $ad["UID"]=12;
+// $ad["pics"]=array("pic/1.png","pic/2.png");
+// $ad["price"]=12;
+// $ad["address"]="12 asd";
+// $ad["type"]=1;
+// $ad["furnished"]=1;
+// $ad["sale_type"]=1;
+// $ad["rooms_num"]=1;
+// $ad["bathrooms_num"]=1;
+// $ad["area"]=1;
+// $ad["ad_dasc"]="asd asd";
+// $ad["contact_email"]="asd@asd.asd";
+// $ad["contact_phone"]=123;
+// $ad["contact_whatsapp"]=12323;
 
 ?>
